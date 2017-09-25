@@ -35,6 +35,14 @@ class ApplicativeLawsSpec extends FlatSpec {
 
   "Applicative" should "interchange law" in {
     //apply(u, unit(y)) == apply(unit(_(y)), u)
+    val x = 1
+    val pureF = optionApplicative.pure(f(_))
+    val pureX = optionApplicative.pure(x)
+    val newX = optionApplicative.pure((func: Int => Int) => func(x))
 
+    assert(optionApplicative.ap[Int, Int](pureF)(pureX) ==
+      optionApplicative.ap(newX)(pureF)
+    )
   }
+  //apply(u, apply(v, w)) == apply(apply(apply(unit(f => g => f compose g), u), v), w)
 }
